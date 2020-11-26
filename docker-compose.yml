@@ -15,9 +15,13 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "http://+:80"
       DOTNET_RUNNING_IN_CONTAINER: 1
+    depends_on:
+      - "postgres"
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "app.py"]
 
   postgres:
     image: postgres
+    container_name: postgres
     build: 
      context: .
      dockerfile: Postgre/Dockerfile

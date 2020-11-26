@@ -52,8 +52,7 @@ namespace UserCase
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, DbContext dbContext)
         {
-            dbContext.Database.Migrate();
-            DbInitilization.SeedUsers(userManager).Wait();
+        
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,6 +71,8 @@ namespace UserCase
             {
                 endpoints.MapControllers();
             });
+            dbContext.Database.Migrate();
+            DbInitilization.SeedUsers(userManager).Wait();
         }
     }
 }

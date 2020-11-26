@@ -17,6 +17,7 @@ using FluentValidation.AspNetCore;
 using UserCase.API.Validations.User;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using UserCase.Core.Entities;
 
 namespace UserCase
@@ -49,8 +50,9 @@ namespace UserCase
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, DbContext dbContext)
         {
+            dbContext.Database.Migrate();
             DbInitilization.SeedUsers(userManager).Wait();
             if (env.IsDevelopment())
             {
